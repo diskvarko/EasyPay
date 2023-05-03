@@ -45,5 +45,4 @@ fun CardDetailsScreenPreview() {
     Surface() {
         CardDetailsScreen()
     }
-
 }

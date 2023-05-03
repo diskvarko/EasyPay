@@ -19,25 +19,19 @@ import com.example.easypay.ui.theme.*
 @Composable
 fun HomeScreenPreview() {
     EasyPayTheme {
-        Surface(Modifier.fillMaxSize()) {
-            HomeScreen()
-        }
+            HomeScreen({})
     }
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(createPaymentClick: () -> Unit) {
     Column {
         StartScreen(
             Modifier
                 .weight(2f)
                 .padding(vertical = 70.dp)
         )
-        ButtonActive(
-            text = "New payment"
-        ) {
-
-        }
+        ButtonActive(text = "New payment", action = createPaymentClick)
     }
 }
 
@@ -64,93 +58,6 @@ fun StartScreen(modifier: Modifier = Modifier) {
                 .padding(20.dp),
             style = MaterialTheme.typography.lightStyle1
         )
-
     }
 }
 
-@Composable
-fun ButtonActive(modifier: Modifier = Modifier, text: String, action: () -> Unit) {
-    Button(
-        onClick = action,
-        shape = RoundedCornerShape(percent = 25),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = BlueMain,
-            contentColor = Color.White
-        ),
-        contentPadding = PaddingValues(horizontal = 40.dp, vertical = 20.dp),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 40.dp, vertical = 20.dp)
-
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.buttonStyle
-        )
-    }
-}
-
-@Composable
-fun InputField(modifier: Modifier = Modifier, text: String, onValueChange: (String) -> Unit) {
-    OutlinedTextField(
-        value = text,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        shape = RoundedCornerShape(25.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color.Gray.copy(alpha = 0.05f),
-            focusedBorderColor = BlueLight,
-            unfocusedBorderColor = GraySuperLight,
-            cursorColor = BlueLight,
-            errorBorderColor = Color.Red
-        )
-    )
-}
-
-@Composable
-fun HeaderText(modifier: Modifier = Modifier, text: String) {
-    Text(
-        text = text,
-        modifier = modifier,
-        fontSize = 20.sp,
-        fontFamily = Poppins,
-        color = BlueHeaderText
-    )
-}
-
-@Composable
-fun TwoLinesText(modifier: Modifier, headerText: String, descriptionText: String) {
-    Column(Modifier.padding(10.dp)) {
-        Text(
-            text = headerText,
-            modifier = modifier,
-            style = MaterialTheme.typography.lightStyle1,
-            color = GrayLight
-        )
-        Text(
-            text = descriptionText,
-            modifier = modifier,
-            style = MaterialTheme.typography.lightStyle2,
-            color = Color.Black.copy(alpha = 0.6f)
-        )
-        Box(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(GraySuperLight)
-        )
-    }
-}
-
-@Preview
-@Composable
-fun TextInputPreview() {
-    InputField(Modifier, "qqqqq", { "" })
-    HeaderText(text = "")
-}
-
-@Preview
-@Composable
-fun TwoLinesTextPrev() {
-    TwoLinesText(Modifier, "CATEGORY", "LIGHT")
-}

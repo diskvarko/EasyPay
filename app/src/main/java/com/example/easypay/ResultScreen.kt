@@ -73,37 +73,37 @@ fun ResultPaymentHeader(isSuccessful: Boolean) {
     }
 }
 
+@Composable
+fun ResultScreen(onFinishClick: () -> Unit) {
+    Column() {
+        ResultPaymentHeader(false)
+        Text(
+            text = "Payment details",
+            style = MaterialTheme.typography.normalStyle,
+            fontSize = 20.sp,
+            color = Color.Black.copy(alpha = 0.7f),
+            modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
+        )
+        LazyColumn(Modifier.padding(horizontal = 20.dp)) {
+            repeat(5) {
+                item() {
+                    TwoLinesText(
+                        modifier = Modifier,
+                        headerText = "11",
+                        descriptionText = "121"
+                    )
+                }
+            }
+        }
+        ButtonActive(
+            text = "Finish",
+            action = onFinishClick
+        )
+    }
+}
+
 @Preview
 @Composable
 fun ResultPaymentPreview() {
-    Surface {
-        Column() {
-            ResultPaymentHeader(false)
-            Text(
-                text = "Payment details",
-                style = MaterialTheme.typography.normalStyle,
-                fontSize = 20.sp,
-                color = Color.Black.copy(alpha = 0.7f),
-                modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
-            )
-            LazyColumn(Modifier.padding(horizontal = 20.dp)) {
-                repeat(5) {
-                    item() {
-                        TwoLinesText(
-                            modifier = Modifier,
-                            headerText = "11",
-                            descriptionText = "121"
-                        )
-                    }
-                }
-            }
-            ButtonActive(
-                text = "Finish"
-            ) {
-
-            }
-        }
-
-    }
-
+        ResultScreen {}
 }

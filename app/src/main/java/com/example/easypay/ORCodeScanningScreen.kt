@@ -53,5 +53,4 @@ fun ORCodeScanningScreenPreview() {
     Surface() {
         ORCodeScanningScreen()
     }
-
 }

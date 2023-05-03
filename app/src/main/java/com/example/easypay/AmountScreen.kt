@@ -16,7 +16,7 @@ import com.example.easypay.ui.theme.BlueLight
 import com.example.easypay.ui.theme.lightStyle2
 
 @Composable
-fun AmountScreen() {
+fun AmountScreen(onNextClick: () -> Unit) {
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.weight(2f)) {
             HeaderText(
@@ -33,9 +33,11 @@ fun AmountScreen() {
             )
             InfoBox(Modifier.padding(20.dp))
         }
-        ButtonActive(text = "Next", modifier = Modifier.padding(vertical = 50.dp)) {
-
-        }
+        ButtonActive(
+            text = "Next",
+            modifier = Modifier.padding(vertical = 50.dp),
+            action = onNextClick
+        )
     }
 }
 
@@ -64,6 +66,6 @@ fun InfoBox(modifier: Modifier = Modifier) {
 @Composable
 fun AmountScreenPreview() {
     Surface {
-        AmountScreen()
+        AmountScreen {}
     }
 }
