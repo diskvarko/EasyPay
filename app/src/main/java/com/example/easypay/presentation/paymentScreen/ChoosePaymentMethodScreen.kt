@@ -1,4 +1,4 @@
-package com.example.easypay
+package com.example.easypay.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,5 +47,4 @@ fun ChoosePaymentMethodScreenPreview() {
     Surface() {
         ChoosePaymentMethodScreen({}, {}, {})
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.easypay
+package com.example.easypay.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.easypay.R
 import com.example.easypay.ui.theme.BlueLight
 import com.example.easypay.ui.theme.RedLight
 import com.example.easypay.ui.theme.buttonStyle
@@ -76,7 +76,7 @@ fun ResultPaymentHeader(isSuccessful: Boolean) {
 @Composable
 fun ResultScreen(onFinishClick: () -> Unit) {
     Column() {
-        ResultPaymentHeader(false)
+        ResultPaymentHeader(true)
         Text(
             text = "Payment details",
             style = MaterialTheme.typography.normalStyle,
@@ -85,7 +85,7 @@ fun ResultScreen(onFinishClick: () -> Unit) {
             modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
         )
         LazyColumn(Modifier.padding(horizontal = 20.dp)) {
-            repeat(5) {
+            repeat(4) {
                 item() {
                     TwoLinesText(
                         modifier = Modifier,

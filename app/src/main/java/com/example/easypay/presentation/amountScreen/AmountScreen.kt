@@ -1,4 +1,4 @@
-package com.example.easypay
+package com.example.easypay.presentation.amountScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,16 +7,35 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.easypay.presentation.ButtonActive
+import com.example.easypay.presentation.HeaderText
+import com.example.easypay.presentation.InputField
 import com.example.easypay.ui.theme.BlueLight
 import com.example.easypay.ui.theme.lightStyle2
 
 @Composable
-fun AmountScreen(onNextClick: () -> Unit) {
+fun AmountScreen(
+    onNextClick: () -> Unit
+) {
+    val viewModel = viewModel<AmountScreenViewModel>()
+    val state = viewModel.state
+    val context = LocalContext.current
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is AmountScreenViewModel.ValidationEvent.Success -> onNextClick.invoke()
+            }
+        }
+    }
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.weight(2f)) {
             HeaderText(
@@ -25,18 +44,35 @@ fun AmountScreen(onNextClick: () -> Unit) {
                     .align(Alignment.CenterHorizontally)
                     .padding(vertical = 50.dp)
             )
-            InputField(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 10.dp),
-                text = "",
-                onValueChange = {}
+            InputField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 10.dp),
+                text = state.input,
+                isError = state.errorMessage != null,
+                placeholderText = "0.0$",
+                onValueChange = {
+                    viewModel.onAmountInputChanged(it)
+                },
+                keyboardType = KeyboardType.Number
             )
+            if (state.errorMessage != null) {
+                Text(
+                    text = state.errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(horizontal = 30.dp)
+                )
+            }
             InfoBox(Modifier.padding(20.dp))
         }
         ButtonActive(
             text = "Next",
             modifier = Modifier.padding(vertical = 50.dp),
-            action = onNextClick
+            action = {
+                viewModel.submitAmount()
+            }
         )
     }
 }
@@ -66,6 +102,6 @@ fun InfoBox(modifier: Modifier = Modifier) {
 @Composable
 fun AmountScreenPreview() {
     Surface {
-        AmountScreen {}
+        //AmountScreen {}
     }
 }

@@ -4,21 +4,8 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import com.example.easypay.navigation.destination.amountScreen
-import com.example.easypay.navigation.destination.cardPaymentScreen
-import com.example.easypay.navigation.destination.chooseMethodScreen
-import com.example.easypay.navigation.destination.homeScreen
-import com.example.easypay.navigation.destination.homeScreenRoute
-import com.example.easypay.navigation.destination.navigateToAmountScreen
-import com.example.easypay.navigation.destination.navigateToCardPaymentScreen
-import com.example.easypay.navigation.destination.navigateToHomeScreen
-import com.example.easypay.navigation.destination.navigateToPaymentMethodScreen
-import com.example.easypay.navigation.destination.navigateToQRCodeScreen
-import com.example.easypay.navigation.destination.qrCodeDestinationScreen
-import com.example.easypay.navigation.destination.resultScreen
+import com.example.easypay.navigation.destination.*
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 
 
@@ -71,7 +58,9 @@ fun AppNavGraph(
             onCardDetailsClick = {
 
             })
-        cardPaymentScreen()
+        cardPaymentScreen(onResultGo = {
+            navController.navigateToResultScreen()
+        })
         qrCodeDestinationScreen()
         resultScreen {
             navController.popBackStack()

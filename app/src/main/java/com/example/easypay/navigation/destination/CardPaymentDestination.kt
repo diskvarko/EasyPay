@@ -4,14 +4,14 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
-import com.example.easypay.ScanCardScreen
+import com.example.easypay.presentation.paymentScreen.ScanCardScreen
 
 private const val cardPaymentScreenRoute = "cardPayment"
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.cardPaymentScreen() {
+fun NavGraphBuilder.cardPaymentScreen(onResultGo: () -> Unit) {
     composable(cardPaymentScreenRoute) {
-        ScanCardScreen()
+        ScanCardScreen(onResultGo)
     }
 }
 

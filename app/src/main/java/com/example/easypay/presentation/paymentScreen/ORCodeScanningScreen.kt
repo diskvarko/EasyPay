@@ -1,4 +1,4 @@
-package com.example.easypay
+package com.example.easypay.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -14,19 +14,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.easypay.R
+import com.example.easypay.ui.theme.GrayLight
 import com.example.easypay.ui.theme.lightStyle1
 import com.example.easypay.ui.theme.lightStyle2
 
 @Composable
-fun ScanCardScreen() {
-    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+fun ORCodeScanningScreen() {
+    Column(Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center
+    ) {
         Image(
             modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.nfc_logo),
+            painter = painterResource(id = R.drawable.qr_scan),
             contentDescription = null
         )
         Text(
-            text = "Attach a card",
+            text = "QR code scanning",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(30.dp),
@@ -35,11 +39,12 @@ fun ScanCardScreen() {
             color = Color.Black
         )
         Text(
-            text = "Make sure the card\n",
+            text = "Put the QR code to be scanned into\nthe frame",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(20.dp),
             style = MaterialTheme.typography.lightStyle2,
+            color = GrayLight,
             textAlign = TextAlign.Center
         )
     }
@@ -47,9 +52,8 @@ fun ScanCardScreen() {
 
 @Preview
 @Composable
-fun ScanCardScreenPreview() {
+fun ORCodeScanningScreenPreview() {
     Surface() {
-        ScanCardScreen()
+        ORCodeScanningScreen()
     }
-
 }
