@@ -12,9 +12,11 @@ private const val amountScreenRoute = "amount"
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.amountScreen(
-    onNextClick: () -> Unit
+    onNextClick: (String) -> Unit
 ) {
-    composable(amountScreenRoute) {
+    composable(
+        amountScreenRoute
+    ) {
         AmountScreen(
             onNextClick = onNextClick
         )

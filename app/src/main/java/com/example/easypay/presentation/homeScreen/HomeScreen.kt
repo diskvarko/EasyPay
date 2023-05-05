@@ -1,25 +1,21 @@
-package com.example.easypay.presentation
+package com.example.easypay.presentation.homeScreen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.easypay.R
-import com.example.easypay.ui.theme.*
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    EasyPayTheme {
-            HomeScreen({})
-    }
-}
+import com.example.easypay.presentation.common.ButtonActive
+import com.example.easypay.ui.theme.headerStyle
+import com.example.easypay.ui.theme.lightStyle1
 
 @Composable
 fun HomeScreen(createPaymentClick: () -> Unit) {

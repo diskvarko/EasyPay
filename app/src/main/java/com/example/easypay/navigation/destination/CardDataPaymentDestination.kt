@@ -5,16 +5,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.example.easypay.presentation.paymentScreen.ORCodeScanningScreen
+import com.example.easypay.presentation.paymentScreen.card.CardDetailsScreen
 import com.google.accompanist.navigation.animation.composable
 
-private const val qrScreenRoute = "qrCode"
+private const val cardDataPaymentScreenRoute = "cardDataPayment"
 private const val paymentMethodKey = "paymentMethod"
 private const val amountKey = "amount"
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.qrCodeDestinationScreen(onResultGo: (amount: String, paymentMethod: String) -> Unit) {
-    composable(route = qrScreenRoute,
+fun NavGraphBuilder.cardDataPaymentScreen(onNextClick: (amount: String, paymentMethod: String, cardNum: String) -> Unit) {
+    composable(cardDataPaymentScreenRoute,
         arguments = listOf(
             navArgument(paymentMethodKey) {
                 type = NavType.StringType
@@ -29,16 +29,16 @@ fun NavGraphBuilder.qrCodeDestinationScreen(onResultGo: (amount: String, payment
         )) { backStackEntry ->
         val amount = backStackEntry.savedStateHandle.get<String>(amountKey).orEmpty()
         val paymentMethod = backStackEntry.savedStateHandle.get<String>(paymentMethodKey).orEmpty()
-        ORCodeScanningScreen(
+        CardDetailsScreen(
             amount = amount,
             paymentMethod = paymentMethod,
-            onResultGo = onResultGo
+            onNextClick = onNextClick
         )
     }
 }
 
-fun NavHostController.navigateToQRCodeScreen(paymentMethod: String, amount: String) {
-    navigate(qrScreenRoute)
+fun NavHostController.navigateToCardDataPaymentScreen(paymentMethod: String, amount: String) {
+    navigate(cardDataPaymentScreenRoute)
     currentBackStackEntry?.let {
         it.savedStateHandle[paymentMethodKey] = paymentMethod
         it.savedStateHandle[amountKey] = amount

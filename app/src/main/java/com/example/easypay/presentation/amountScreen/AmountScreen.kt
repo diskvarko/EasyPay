@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,18 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.easypay.presentation.ButtonActive
-import com.example.easypay.presentation.HeaderText
-import com.example.easypay.presentation.InputField
+import com.example.easypay.presentation.common.ButtonActive
+import com.example.easypay.presentation.common.HeaderText
+import com.example.easypay.presentation.common.InputField
 import com.example.easypay.ui.theme.BlueLight
 import com.example.easypay.ui.theme.lightStyle2
 
 @Composable
 fun AmountScreen(
-    onNextClick: () -> Unit
+    onNextClick: (String) -> Unit
 ) {
     val viewModel = viewModel<AmountScreenViewModel>()
     val state = viewModel.state
@@ -32,7 +30,7 @@ fun AmountScreen(
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is AmountScreenViewModel.ValidationEvent.Success -> onNextClick.invoke()
+                is AmountScreenViewModel.ValidationEvent.Success -> onNextClick.invoke(state.input)
             }
         }
     }
@@ -95,13 +93,5 @@ fun InfoBox(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.lightStyle2,
             color = Color.Black.copy(alpha = 0.8f)
         )
-    }
-}
-
-@Preview
-@Composable
-fun AmountScreenPreview() {
-    Surface {
-        //AmountScreen {}
     }
 }

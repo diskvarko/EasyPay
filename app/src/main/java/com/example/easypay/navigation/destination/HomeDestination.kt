@@ -3,8 +3,8 @@ package com.example.easypay.navigation.destination
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import com.example.easypay.presentation.homeScreen.HomeScreen
 import com.google.accompanist.navigation.animation.composable
-import com.example.easypay.presentation.HomeScreen
 
 const val homeScreenRoute = "home"
 
@@ -18,5 +18,7 @@ fun NavGraphBuilder.homeScreen(createPaymentClick: () -> Unit) {
 }
 
 fun NavHostController.navigateToHomeScreen() {
-    navigate(homeScreenRoute)
+    navigate(homeScreenRoute) {
+        launchSingleTop
+    }
 }

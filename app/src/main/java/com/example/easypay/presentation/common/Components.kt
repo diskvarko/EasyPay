@@ -1,4 +1,4 @@
-package com.example.easypay.presentation
+package com.example.easypay.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,13 +48,27 @@ fun InputField(
     isError: Boolean,
     placeholderText: String,
     onValueChange: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text
+    label: String? = null,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    trailingIcon: @Composable() (() -> Unit)? = null,
+    visualTransformation: VisualTransformation? = null
 ) {
     OutlinedTextField(
         value = text,
         onValueChange = onValueChange,
         modifier = modifier,
         isError = isError,
+        label = {
+            if (label != null) {
+                Text(
+                    label, color = if (!isError) {
+                        BlueLight
+                    } else {
+                        Color.Red
+                    }
+                )
+            }
+        },
         placeholder = {
             Text(text = placeholderText)
         },
@@ -65,9 +80,12 @@ fun InputField(
             cursorColor = BlueLight,
             errorBorderColor = Color.Red
         ),
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        trailingIcon = trailingIcon,
+        visualTransformation = visualTransformation ?: VisualTransformation.None
     )
 }
+
 
 @Composable
 fun HeaderText(modifier: Modifier = Modifier, text: String) {
@@ -83,18 +101,17 @@ fun HeaderText(modifier: Modifier = Modifier, text: String) {
 @Composable
 fun TwoLinesText(
     modifier: Modifier,
-    headerText: String,
-    descriptionText: String
+    item: Pair<String, String>
 ) {
     Column(Modifier.padding(10.dp)) {
         Text(
-            text = headerText,
+            text = item.first,
             modifier = modifier,
             style = MaterialTheme.typography.lightStyle1,
             color = GrayLight
         )
         Text(
-            text = descriptionText,
+            text = item.second,
             modifier = modifier,
             style = MaterialTheme.typography.lightStyle2,
             color = Color.Black.copy(alpha = 0.6f)
@@ -106,17 +123,4 @@ fun TwoLinesText(
                 .background(GraySuperLight)
         )
     }
-}
-
-@Preview
-@Composable
-fun TextInputPreview() {
-    // InputField(Modifier, "qqqqq", { "" })
-    HeaderText(text = "")
-}
-
-@Preview
-@Composable
-fun TwoLinesTextPrev() {
-    TwoLinesText(Modifier, "CATEGORY", "LIGHT")
 }

@@ -45,25 +45,41 @@ fun AppNavGraph(
         homeScreen {
             navController.navigateToAmountScreen()
         }
-        amountScreen {
-            navController.navigateToPaymentMethodScreen()
+        amountScreen { amount ->
+            navController.navigateToPaymentMethodScreen(amount)
         }
         chooseMethodScreen(
-            onCardPaymentClick = {
-                navController.navigateToCardPaymentScreen()
+            onCardPaymentClick = { paymentMethod, amount ->
+                navController.navigateToCardPaymentScreen(
+                    paymentMethod = paymentMethod,
+                    amount = amount
+                )
             },
-            onQRCodeClick = {
-                navController.navigateToQRCodeScreen()
+            onQRCodeClick = { paymentMethod, amount ->
+                navController.navigateToQRCodeScreen(paymentMethod, amount)
             },
-            onCardDetailsClick = {
-
+            onCardDetailsClick = { paymentMethod, amount ->
+                navController.navigateToCardDataPaymentScreen(paymentMethod, amount)
             })
-        cardPaymentScreen(onResultGo = {
-            navController.navigateToResultScreen()
+        cardPaymentScreen(onResultGo = { amount, paymentMethod ->
+            navController.navigateToResultScreen(
+                paymentMethod = paymentMethod,
+                amount = amount,
+                cardNum = null,
+            )
         })
-        qrCodeDestinationScreen()
+        qrCodeDestinationScreen(onResultGo = { amount, paymentMethod ->
+            navController.navigateToResultScreen(paymentMethod = paymentMethod, amount = amount, cardNum = null)
+        })
+        cardDataPaymentScreen(onNextClick = { amount, paymentMethod, cardNum ->
+            navController.navigateToResultScreen(
+                paymentMethod = paymentMethod,
+                amount = amount,
+                cardNum = cardNum
+            )
+        })
         resultScreen {
-            navController.popBackStack()
+            navController.popBackStack(route = homeScreenRoute, inclusive = false)
         }
     }
 }

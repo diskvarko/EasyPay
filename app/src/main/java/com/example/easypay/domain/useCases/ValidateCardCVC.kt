@@ -1,16 +1,16 @@
 package com.example.easypay.domain.useCases
 
-class ValidateAmount {
-    fun execute(amount: String, minValue: Int, maxValue: Int): ValidationResult {
-        if (amount.isBlank()) {
+class ValidateCardCVC {
+    fun execute(cvcCode: String): ValidationResult {
+        if (cvcCode.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Empty field"
+                errorMessage = "CVC can't be empty"
             )
-        } else if (amount.toInt() !in minValue..maxValue) {
+        } else if (cvcCode.length != 3) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Value is out of range"
+                errorMessage = "invalid CVC"
             )
         }
         return ValidationResult(

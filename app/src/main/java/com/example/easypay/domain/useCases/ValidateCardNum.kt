@@ -1,20 +1,22 @@
 package com.example.easypay.domain.useCases
 
-class ValidateAmount {
-    fun execute(amount: String, minValue: Int, maxValue: Int): ValidationResult {
-        if (amount.isBlank()) {
+class ValidateCardNum {
+
+    fun execute(cardNumber: String): ValidationResult {
+        if (cardNumber.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Empty field"
+                errorMessage = "Card number can't be empty"
             )
-        } else if (amount.toInt() !in minValue..maxValue) {
+        } else if (cardNumber.length != 16) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Value is out of range"
+                errorMessage = "invalid value"
             )
         }
         return ValidationResult(
             successful = true
         )
     }
+
 }

@@ -1,6 +1,5 @@
 package com.example.easypay.presentation.amountScreen
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.easypay.domain.useCases.ValidateAmount
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -25,7 +25,7 @@ class AmountScreenViewModel(
     }
 
     fun submitAmount() {
-        val amountValidationResult = validateAmount.execute(state.input, 10, 100)
+        val amountValidationResult = validateAmount.execute(state.input, 10, 10000)
         state = state.copy(
             errorMessage = amountValidationResult.errorMessage
         )
@@ -34,12 +34,13 @@ class AmountScreenViewModel(
             return
         }
         viewModelScope.launch {
+            delay(500)
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
     sealed class ValidationEvent {
-        object Success: ValidationEvent()
+        object Success : ValidationEvent()
     }
 }
 
