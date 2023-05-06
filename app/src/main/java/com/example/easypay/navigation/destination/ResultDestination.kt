@@ -34,7 +34,7 @@ fun NavGraphBuilder.resultScreen(onFinishClick: () -> Unit) {
             }
         )
     ) { backStackEntry ->
-        val cardNum = backStackEntry.savedStateHandle.get<String>(cardNumKey).orEmpty()
+        val cardNum = backStackEntry.savedStateHandle.get<String>(cardNumKey) ?: "4255 2003 0281 4409"
         val amount = backStackEntry.savedStateHandle.get<String>(amountKey).orEmpty()
         val paymentMethod = backStackEntry.savedStateHandle.get<String>(paymentMethodKey).orEmpty()
         val list = listOf(

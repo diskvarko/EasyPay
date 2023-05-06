@@ -1,11 +1,15 @@
 package com.example.easypay.presentation.paymentScreen.card
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +27,7 @@ import com.example.easypay.presentation.common.ButtonActive
 import com.example.easypay.presentation.common.HeaderText
 import com.example.easypay.presentation.common.InputField
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CardDetailsScreen(
     paymentMethod: String,
@@ -30,7 +35,7 @@ fun CardDetailsScreen(
     onNextClick: (amount: String, paymentMethod: String, cardNum: String) -> Unit
 ) {
     val viewModel = viewModel<CardDetailsViewModel>()
-    val state = viewModel.state
+    val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
@@ -86,7 +91,7 @@ fun CardDetailsScreen(
         )
         if (state.errorMessageCardNumber != null) {
             Text(
-                text = state.errorMessageCardNumber,
+                text = state.errorMessageCardNumber!!,
                 color = Color.Red,
                 modifier = Modifier
                     .align(Alignment.Start)
@@ -117,7 +122,7 @@ fun CardDetailsScreen(
                 )
                 if (state.errorMessageCardDate != null) {
                     Text(
-                        text = state.errorMessageCardDate,
+                        text = state.errorMessageCardDate!!,
                         color = Color.Red,
                         modifier = Modifier
                     )
@@ -147,7 +152,7 @@ fun CardDetailsScreen(
                 )
                 if (state.errorMessageCVC != null) {
                     Text(
-                        text = state.errorMessageCVC,
+                        text = state.errorMessageCVC!!,
                         color = Color.Red,
                         modifier = Modifier
                     )

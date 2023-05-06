@@ -7,6 +7,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +27,7 @@ fun AmountScreen(
     onNextClick: (String) -> Unit
 ) {
     val viewModel = viewModel<AmountScreenViewModel>()
-    val state = viewModel.state
+    val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
@@ -56,7 +58,7 @@ fun AmountScreen(
             )
             if (state.errorMessage != null) {
                 Text(
-                    text = state.errorMessage,
+                    text = state.errorMessage!!,
                     color = Color.Red,
                     modifier = Modifier
                         .align(Alignment.Start)
