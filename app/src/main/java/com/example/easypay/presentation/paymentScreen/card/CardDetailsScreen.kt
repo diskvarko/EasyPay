@@ -3,13 +3,10 @@ package com.example.easypay.presentation.paymentScreen.card
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,12 +23,17 @@ import com.example.easypay.data.getCardTypeFromNumber
 import com.example.easypay.presentation.common.ButtonActive
 import com.example.easypay.presentation.common.HeaderText
 import com.example.easypay.presentation.common.InputField
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CardDetailsScreen(
     paymentMethod: String,
     amount: String,
+    bottomSheetState: ModalBottomSheetState,
+    coroutineScope: CoroutineScope,
     onNextClick: (amount: String, paymentMethod: String, cardNum: String) -> Unit
 ) {
     val viewModel = viewModel<CardDetailsViewModel>()
@@ -146,7 +148,12 @@ fun CardDetailsScreen(
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.info_icon),
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier = Modifier.clickable {
+                                coroutineScope.launch {
+                                    bottomSheetState.show()
+                                }
+                            }
                         )
                     }
                 )
@@ -165,6 +172,39 @@ fun CardDetailsScreen(
             action = {
                 viewModel.submitData()
             }
+        )
+    }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheetScreen(
+    paymentMethod: String,
+    amount: String,
+    onNextClick: (amount: String, paymentMethod: String, cardNum: String) -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+    )
+    val scope = rememberCoroutineScope()
+    ModalBottomSheetLayout(
+        sheetState = sheetState,
+        sheetContent = {
+            BottomSheetContent(
+                modifier = Modifier,
+//                state = sheetState,
+//                coroutineScope = scope
+            )
+        }) {
+        CardDetailsScreen(
+            paymentMethod = paymentMethod,
+            amount = amount,
+            bottomSheetState = sheetState ,
+            coroutineScope = scope,
+            onNextClick = onNextClick
         )
     }
 }

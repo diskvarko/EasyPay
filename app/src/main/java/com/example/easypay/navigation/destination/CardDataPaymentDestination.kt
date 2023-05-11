@@ -1,17 +1,20 @@
 package com.example.easypay.navigation.destination
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.example.easypay.presentation.paymentScreen.card.CardDetailsScreen
+import com.example.easypay.presentation.paymentScreen.card.BottomSheetScreen
 import com.google.accompanist.navigation.animation.composable
 
 private const val cardDataPaymentScreenRoute = "cardDataPayment"
 private const val paymentMethodKey = "paymentMethod"
 private const val amountKey = "amount"
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.cardDataPaymentScreen(onNextClick: (amount: String, paymentMethod: String, cardNum: String) -> Unit) {
     composable(cardDataPaymentScreenRoute,
@@ -29,7 +32,7 @@ fun NavGraphBuilder.cardDataPaymentScreen(onNextClick: (amount: String, paymentM
         )) { backStackEntry ->
         val amount = backStackEntry.savedStateHandle.get<String>(amountKey).orEmpty()
         val paymentMethod = backStackEntry.savedStateHandle.get<String>(paymentMethodKey).orEmpty()
-        CardDetailsScreen(
+        BottomSheetScreen(
             amount = amount,
             paymentMethod = paymentMethod,
             onNextClick = onNextClick
