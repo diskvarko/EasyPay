@@ -5,11 +5,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,6 +25,7 @@ import com.example.easypay.data.getCardTypeFromNumber
 import com.example.easypay.presentation.common.ButtonActive
 import com.example.easypay.presentation.common.HeaderText
 import com.example.easypay.presentation.common.InputField
+import com.example.easypay.ui.theme.Shapes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -60,7 +63,7 @@ fun CardDetailsScreen(
         InputField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 10.dp),
+                .padding(top = 10.dp, end = 20.dp, start = 20.dp),
             text = state.inputCardNumber,
             isError = state.errorMessageCardNumber != null,
             placeholderText = "1234 4567 9876 1234",
@@ -71,18 +74,8 @@ fun CardDetailsScreen(
             keyboardType = KeyboardType.Number,
             label = "16 digits number",
             trailingIcon = {
-                val iconRes = when (getCardTypeFromNumber(state.inputCardNumber)) {
-                    CardType.VISA -> R.drawable.visa
-                    CardType.MASTERCARD -> R.drawable.mastercard
-                    CardType.AMERICAN_EXPRESS -> R.drawable.american_express
-                    CardType.MAESTRO -> R.drawable.maestro
-                    CardType.DINNERS_CLUB -> R.drawable.dinners_club
-                    CardType.DISCOVER -> R.drawable.discover
-                    CardType.JCB -> R.drawable.jcb
-                    else -> R.drawable.visa
-                }
                 Image(
-                    painter = painterResource(id = iconRes),
+                    painter = painterResource(id = getCardTypeIcon(state.inputCardNumber)),
                     contentDescription = "card_type",
                     modifier = Modifier
                         .height(30.dp)
@@ -192,17 +185,14 @@ fun BottomSheetScreen(
     val scope = rememberCoroutineScope()
     ModalBottomSheetLayout(
         sheetState = sheetState,
+        sheetShape = RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp),
         sheetContent = {
-            BottomSheetContent(
-                modifier = Modifier,
-//                state = sheetState,
-//                coroutineScope = scope
-            )
+            BottomSheetContent(modifier = Modifier)
         }) {
         CardDetailsScreen(
             paymentMethod = paymentMethod,
             amount = amount,
-            bottomSheetState = sheetState ,
+            bottomSheetState = sheetState,
             coroutineScope = scope,
             onNextClick = onNextClick
         )
